@@ -60,15 +60,27 @@ private ArrayList<Device> devices;
         }
         return highestD;
     }
+
+    //anders Bsp. ---Prozessoren  Schlüssel=Generation, Wert=Anz. d. cores
     ArrayList<Device> findDevicesThatFulfillMinimumPerformance(HashMap<Integer,Integer> minimum){
         ArrayList<Device> erg = new ArrayList<>();
 
         for(Device d : devices){
-            Integer cores = minimum.get(d.getProcessor().getGeneration());
-            if(cores != null && d.getProcessor().getNrCores() >= cores){
+            //im Kurs folgendermaßen gelöst:
+            //int procGeneration = d.getProcessor().getGeneration();
+            //int procCores = d.getProcessor().getNrCores();  ---wieviele cores wir tatsächlich haben
+            //int minCores = minimum.get(procGeneration);
+            Integer cores = minimum.get(d.getProcessor().getGeneration());  //jedes device hat prozessor. und jeder prozesser hat generation
+            //erfuellen wir die Mindestanforderung
+            //if (procCores >= minCores) {e.add(d);}
+            if(cores != null && d.getProcessor().getNrCores() >= cores){  //if(minimum.containsKey(procGeneration))
+                //in procGeneration ist Schlüssel drinnen
+
+                //Unterschied zw. gegebener Lösung und Lösung von Kurs: gegebene Lösung ist kompakter geschrieben
                 erg.add(d);
             }
         }
+        //schauen, ob Werte überhaupt in Hashmap drinnen (Anz.d.Cores)...(wir bekommen null zurück wenn Schlüsselwert nicht drinnen ist)
 
         return erg;
     }
@@ -78,23 +90,30 @@ private ArrayList<Device> devices;
         erg.put("medium", 0);
         erg.put("high", 0);
 
+        // in low = 0, medium = 0, high = 0; ---- Hilfsvariablen; Alternative variante (AV)
+
         for(Device d : devices){
             double price = d.calculateProductionCost() / d.getNrProduced();
             if(price < lowBorder){
                 //im low dazuzaehlen
                 //wir wollen es auf low-Wert raufschreiben
                 //was soll also drauf sein auf dem Wert - bitte zählt nich Anzahl der Produkte dazu!!!! nur 1 dazuzählen
-                erg.put("low", erg.get("low") + 1);
+                //wozu wollen wir 1 dazuzählen? (es steht schon in der Hashmap drinnen auf welchen wert wir zugreifen wollen
+                //von welchem schlüssel wollen wir Wert: wie greife ich zu auf hashmap: .get
+                //wenn ich allerdings nicht weiß wieviele Fälle es gibt, geht das natürlich im Code nicht mehr
+                erg.put("low", erg.get("low") + 1);  //AV low = low +1
             }else{  //da wir im else sind, wissen wir, dass wir >= low border sind
                 if(price < mediumBorder){
                     //im medium dazuzaehlen
-                    erg.put("medium", erg.get("medium") + 1);
+                    erg.put("medium", erg.get("medium") + 1);  //AV medium + 1
                 }else{
-                    erg.put("high", erg.get("high") + 1);
+                    erg.put("high", erg.get("high") + 1); //AV high + 1
                 }
             }
         }
 
+        //AV: in hashmap gehe ich nur einmal ganz am Ende
+       //return wird noch angepasst. hashmap heißt erg
         return erg;
     }
 }
