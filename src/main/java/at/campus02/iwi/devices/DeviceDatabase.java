@@ -1,6 +1,7 @@
 package at.campus02.iwi.devices;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class DeviceDatabase {
@@ -115,5 +116,10 @@ private ArrayList<Device> devices;
         //AV: in hashmap gehe ich nur einmal ganz am Ende
        //return wird noch angepasst. hashmap heißt erg
         return erg;
+    }
+    public void sortedPrint(){
+        Collections.sort(devices, new DeviceComparator());
+        //wie wird collection ausgegeben?:
+        System.out.println(devices); //könnte toString hinschreiben, wird aber automatisch gemacht
     }
 }
